@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LasPiñas App - Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #F4F7F5;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        /* LOGIN CONTAINER */
+
+        .login-container {
+            background: white;
+            width: 380px;
+            max-width: 94vw;
+            padding: 35px;
+
+            border-radius: 15px;
+            border-top: 7px solid #D6B64C;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* LOGO */
+
+        .logo {
+            display: block;
+            width: 110px;
+            height: 110px;
+
+            object-fit: contain;
+
+            margin: 0 auto 15px;
+        }
+
+        /* TITLE */
+
+        h1 {
+            text-align: center;
+            color: #075C38;
+
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* GOLD LINE */
+
+        .gold-line {
+            height: 4px;
+            background: #D6B64C;
+
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        /* INPUT FIELDS */
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #202923;
+            font-weight: bold;
+        }
+
+        .input1 {
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #075C38;
+
+            box-shadow: 0 0 5px rgba(7, 92, 56, 0.2);
+        }
+
+        /* PASSWORD WITH EYE */
+
+        .pw-wrap {
+            position: relative;
+        }
+
+        .pw-wrap input {
+            padding-right: 44px;
+        }
+
+        .eye {
+            position: absolute;
+            right: 6px;
+            top: 4px;
+
+            width: 36px;
+            height: 36px;
+            padding: 0;
+
+            background: transparent;
+            border: 0;
+            border-radius: 7px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .eye:hover {
+            background: #E8F3EC;
+        }
+
+        .eye svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #5F6E67;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .eye .eye-off {
+            display: none;
+        }
+
+        .eye.is-showing .eye-on {
+            display: none;
+        }
+
+        .eye.is-showing .eye-off {
+            display: block;
+        }
+
+        /* BUTTONS */
+
+        .btn-main {
+            width: 100%;
+            padding: 13px;
+
+            background: #075C38;
+            color: white;
+
+            border: 2px solid #D6B64C;
+            border-radius: 7px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover {
+            background: #0D7A4B;
+        }
+
+        /* MESSAGES + SWITCH LINK */
+
+        .msg {
+            min-height: 18px;
+            margin: -8px 0 12px;
+
+            font-size: 13px;
+            color: #C42B2B;
+        }
+
+        .msg.ok {
+            color: #075C38;
+        }
+
+        .switch {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+
+            margin: 18px 0 0;
+        }
+
+        .switch a {
+            color: #075C38;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .switch a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .opt {
+            font-weight: normal;
+            color: #777;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+
+            font-size: 12px;
+            color: #777;
+
+            margin-top: 22px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- CITY LOGO -->
+        <img src="logo.jpg"
+             alt="City of Las Piñas Logo"
+             class="logo">
+
+        <!-- APPLICATION NAME -->
+        <h1>LasPiñas App</h1>
+
+        <p class="subtitle" id="subtitle">
+            City of Las Piñas
+        </p>
+
+        <div class="gold-line"></div>
+
+        <!-- ================= LOGIN FORM ================= -->
+        <form id="loginForm" novalidate>
+
+            <label for="username">Username:</label>
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter your username"
+                autocomplete="username"
+            >
+
+            <label for="password">Password:</label>
+            <div class="pw-wrap">
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                >
+                <button type="button" class="eye" data-eye="password" aria-label="Show password" title="Show password">
+                    <svg class="eye-on" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 4.3-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                </button>
+            </div>
+
+            <p class="msg" id="loginMsg" role="alert"></p>
+
+            <button type="submit" class="btn-main">Login</button>
+
+            <p class="switch">
+                Don't have an account?
+                <a id="showRegister">Create account</a>
+            </p>
+
+        </form>
+
+        <!-- ================= CREATE ACCOUNT FORM ================= -->
+        <form id="registerForm" class="hidden" novalidate>
+
+            <label for="regName">Full name:</label>
+            <input
+                type="text"
+                id="regName"
+                placeholder="Kristan Pogi"
+                autocomplete="name"
+            >
+
+            <label for="regBarangay">Barangay:</label>
+<select class="input1" id="regBarangay" required>
+    <option value="" disabled selected>Select your barangay</option>
+    <option value="Almanza Uno">Almanza Uno</option>
+    <option value="Almanza Dos">Almanza Dos</option>
+    <option value="BF International/CAA">BF International/CAA</option>
+    <option value="Danie Fajardo">Danie Fajardo</option>
+    <option value="Elias Aldana">Elias Aldana</option>
+    <option value="Ilaya">Ilaya</option>
+    <option value="Manuyo Uno">Manuyo Uno</option>
+    <option value="Manuyo Dos">Manuyo Dos</option>
+    <option value="Pamplona Uno">Pamplona Uno</option>
+    <option value="Pamplona Dos">Pamplona Dos</option>
+    <option value="Pilar">Pilar</option>
+    <option value="Pulang Lupa Uno">Pulang Lupa Uno</option>
+    <option value="Pulang Lupa Dos">Pulang Lupa Dos</option>
+    <option value="Talon Uno">Talon Uno</option>
+    <option value="Talon Dos">Talon Dos</option>
+    <option value="Talon Tres">Talon Tres</option>
+    <option value="Talon Kuatro">Talon Kuatro</option>
+    <option value="Talon Singko">Talon Singko</option>
+    <option value="Zapote">Zapote</option>
+</select>
+
+            <label for="regAddress">Street / Address: <span class="opt">(optional)</span></label>
+            <input
+                type="text"
+                id="regAddress"
+                placeholder="House no., street, subdivision"
+                autocomplete="street-address"
+            >
+
+            <label for="regContact">Contact number:</label>
+            <input
+                type="tel"
+                id="regContact"
+                placeholder="09XX XXX XXXX"
+                autocomplete="tel"
+            >
+
+            <label for="regUsername">Username:</label>
+            <input
+                type="text"
+                id="regUsername"
+                placeholder="Choose a username"
+                autocomplete="username"
+            >
+
+            <label for="regPassword">Password:</label>
+            <div class="pw-wrap">
+                <input
+                    type="password"
+                    id="regPassword"
+                    placeholder="At least 4 characters"
+                    autocomplete="new-password"
+                >
+                <button type="button" class="eye" data-eye="regPassword" aria-label="Show password" title="Show password">
+                    <svg class="eye-on" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 4.3-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                </button>
+            </div>
+
+            <label for="regConfirm">Confirm password:</label>
+            <div class="pw-wrap">
+                <input
+                    type="password"
+                    id="regConfirm"
+                    placeholder="Re-enter your password"
+                    autocomplete="new-password"
+                >
+                <button type="button" class="eye" data-eye="regConfirm" aria-label="Show password" title="Show password">
+                    <svg class="eye-on" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 4.3-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+                </button>
+            </div>
+
+            <p class="msg" id="registerMsg" role="alert"></p>
+
+            <button type="submit" class="btn-main">Create account</button>
+
+            <p class="switch">
+                Already have an account?
+                <a id="showLogin">Back to login</a>
+            </p>
+
+        </form>
+
+        <!-- FOOTER -->
+        <p class="footer">
+            City of Las Piñas | LasPiñas App
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // Same keys that index.html / script.js read from
+        var SESSION_KEY = "laspinas_user";
+        var PROFILE_PREFIX = "laspinas_profile_";
+        var ACCOUNTS_KEY = "laspinas_accounts";
+        var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzs4qeNScxEk3JX70IWJ5OJ_l_fUFtmJzjnCMz5wax4_N7A5fvohydHHKYiEXTRcDq/exec";
+
+        var loginForm = document.getElementById("loginForm");
+        var registerForm = document.getElementById("registerForm");
+        var subtitle = document.getElementById("subtitle");
+
+        /* ---------- storage helpers ---------- */
+
+        function getAccounts() {
+            try {
+                return JSON.parse(localStorage.getItem(ACCOUNTS_KEY)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveAccounts(accounts) {
+            try {
+                localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function startSession(username, name, role) {
+            try {
+                localStorage.setItem(SESSION_KEY, JSON.stringify({ username: username, name: name, role: role || "client" }));
+            } catch (e) {}
+            window.location.href = role === "admin" ? "admin.html" : "client.html";
+        }
+
+        /* ---------- switch between login and create account ---------- */
+
+        function showForm(which) {
+            var isRegister = which === "register";
+            loginForm.classList.toggle("hidden", isRegister);
+            registerForm.classList.toggle("hidden", !isRegister);
+            subtitle.textContent = isRegister ? "Create your account" : "City of Las Piñas";
+            document.getElementById("loginMsg").textContent = "";
+            document.getElementById("registerMsg").textContent = "";
+            document.getElementById(isRegister ? "regName" : "username").focus();
+        }
+
+        document.getElementById("showRegister").addEventListener("click", function () { showForm("register"); });
+        document.getElementById("showLogin").addEventListener("click", function () { showForm("login"); });
+
+        /* ---------- show / hide password ---------- */
+
+        document.querySelectorAll(".eye").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var input = document.getElementById(btn.dataset.eye);
+                var show = input.type === "password";
+                input.type = show ? "text" : "password";
+                btn.classList.toggle("is-showing", show);
+                btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+                btn.title = show ? "Hide password" : "Show password";
+                input.focus();
+            });
+        });
+
+        /* ---------- login (Enter key works because this is a form submit) ---------- */
+
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var username = document.getElementById("username").value.trim();
+            var password = document.getElementById("password").value;
+            var msg = document.getElementById("loginMsg");
+            msg.className = "msg";
+            msg.textContent = "";
+
+            if (!username || !password) {
+                msg.textContent = "Please enter your username and password.";
+                return;
+            }
+
+            // built-in admin account
+            if (username === "admin" && password === "123") {
+                startSession("admin", "Administrator", "admin");
+                return;
+            }
+
+            // built-in demo account
+            if (username === "client" && password === "Halili") {
+                startSession("client", "Client", "client");
+                return;
+            }
+
+            var account = getAccounts()[username.toLowerCase()];
+
+            if (account && account.password === password) {
+                startSession(account.username, account.name, "client");
+            } else {
+                msg.textContent = "Invalid username or password!";
+            }
+        });
+
+        /* ---------- create account ---------- */
+
+        
+        registerForm.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            var name = document.getElementById("regName").value.trim();
+            var barangay = document.getElementById("regBarangay").value;
+            var contact = document.getElementById("regContact").value.trim();
+            var username = document.getElementById("regUsername").value.trim();
+            var password = document.getElementById("regPassword").value;
+            var confirm = document.getElementById("regConfirm").value;
+
+            var msg = document.getElementById("registerMsg");
+
+            msg.className = "msg";
+            msg.textContent = "";
+
+            // VALIDATION
+            if (!name || !barangay || !contact || !username || !password || !confirm) {
+                msg.textContent = "Please fill in all required fields.";
+                return;
+            }
+
+            if (!/^[0-9+\s-]{7,15}$/.test(contact)) {
+                msg.textContent = "Please enter a valid contact number.";
+                return;
+            }
+
+            if (/\s/.test(username)) {
+                msg.textContent = "Username cannot contain spaces.";
+                return;
+            }
+
+            if (password.length < 4) {
+                msg.textContent = "Password must be at least 4 characters.";
+                return;
+            }
+
+            if (password !== confirm) {
+                msg.textContent = "Passwords do not match.";
+                return;
+            }
+
+            // CHECK BUILT-IN USERNAMES
+            if (
+                username.toLowerCase() === "admin" ||
+                username.toLowerCase() === "client"
+            ) {
+                msg.textContent = "That username is already taken.";
+                return;
+            }
+
+            // SEND DATA TO GOOGLE SHEETS
+            msg.textContent = "Creating your account...";
+            
+            try {
+
+                const response = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "register",
+                        username: username,
+                        fullname: name,
+                        phone: contact,
+                        barangay: barangay,
+                        password: password,
+                        userType: "client"
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    msg.textContent = result.message || "Registration failed.";
+                    return;
+                }
+
+                // SAVE LOCAL ACCOUNT FOR EXISTING LOGIN SYSTEM
+                var accounts = getAccounts();
+                var key = username.toLowerCase();
+
+                accounts[key] = {
+                    username: username,
+                    password: password,
+                    name: name,
+                    barangay: barangay,
+                    contact: contact
+                };
+
+                saveAccounts(accounts);
+
+                // SAVE PROFILE
+                localStorage.setItem(
+                    PROFILE_PREFIX + username,
+                    JSON.stringify({
+                        name: name,
+                        contact: contact,
+                        barangay: barangay
+                    })
+                );
+
+                // SUCCESS
+                registerForm.reset();
+                showForm("login");
+
+                document.getElementById("username").value = username;
+                document.getElementById("password").focus();
+
+                var lm = document.getElementById("loginMsg");
+
+                lm.className = "msg ok";
+                lm.textContent = "Account created! Please log in.";
+
+            } catch (error) {
+
+                msg.textContent = "Unable to connect to Google Sheets. Please try again.";
+
+                console.error(error);
+            }
+
+        });
+
+
+
+
+            
+    </script>
+
+</body>
+
+</html>

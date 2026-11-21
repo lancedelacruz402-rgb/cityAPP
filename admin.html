@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Las Piñas</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="header">
+        <img src="logo.jpg" alt="Las Piñas City Logo" class="logo">
+
+        <div class="header-text">
+            <h1>Las Piñas City Administrator Dashboard</h1>
+            <p>Logged In (Office of the City Administrator)</p>
+        </div>
+
+        <span class="official">Official LGU</span>
+
+        <button type="button" class="bell" id="bellBtn" aria-label="Notifications" title="Notifications">
+            <i class="fa-solid fa-bell"></i>
+            <span class="bell-count hidden" id="bellCount">0</span>
+        </button>
+
+        <button type="button" class="logout" id="logoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+    </header>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar" id="navbar">
+        <a href="#overview" data-page="overview" class="active">
+            <i class="fa-solid fa-table-cells-large"></i> Overview
+        </a>
+        <a href="#reports" data-page="reports">
+            <i class="fa-solid fa-file-lines"></i> Report Management
+        </a>
+        <a href="#events" data-page="events">
+            <i class="fa-solid fa-bullhorn"></i> Events
+        </a>
+        <a href="#users" data-page="users">
+            <i class="fa-solid fa-users"></i> User Directory
+        </a>
+        <a href="#analytics" data-page="analytics">
+            <i class="fa-solid fa-chart-line"></i> Report &amp; Analytics
+        </a>
+    </nav>
+
+    <main class="main-content">
+
+        <!-- ================= OVERVIEW ================= -->
+        <section class="page active" id="page-overview">
+
+            <div class="stat-grid" id="statGrid"></div>
+
+            <div class="two-col">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h2>Report Distribution by Category</h2>
+                        <span class="tag gold">Live Metrix</span>
+                    </div>
+                    <div id="categoryBars"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <h2>Reports by Barangay Cluster</h2>
+                        <span class="tag lime">District 1 &amp; 2</span>
+                    </div>
+                    <div id="barangayBars"></div>
+                </div>
+            </div>
+
+            <div class="panel queue">
+                <div class="panel-head">
+                    <div>
+                        <h2>High Priority Action Queue</h2>
+                        <p class="panel-sub">Latest submissions requiring triage, validation, or department deployment</p>
+                    </div>
+                    <a href="#reports" class="view-all" data-page-link="reports">View All in Reports Tab →</a>
+                </div>
+                <div id="queueList"></div>
+            </div>
+
+        </section>
+
+        <!-- ================= REPORT MANAGEMENT ================= -->
+        <section class="page" id="page-reports">
+
+            <div class="filter-bar">
+                <div class="field search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="reportSearch" placeholder="Search Reference # title, citizen name....">
+                </div>
+
+                <div class="field select">
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option>New</option>
+                        <option>Under Review</option>
+                        <option>Assigned</option>
+                        <option>Approved</option>
+                        <option>Rejected</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="field select">
+                    <select id="barangayFilter">
+                        <option value="">All 20 Barangays</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header report-grid">
+                    <div>Issue Title &amp; Category</div>
+                    <div>Barangay</div>
+                    <div>Status</div>
+                    <div>Assigned Department</div>
+                    <div class="center">ACTION</div>
+                </div>
+                <div class="table-body" id="reportRows"></div>
+            </div>
+
+        </section>
+
+        <!-- ================= EVENTS ================= -->
+        <section class="page" id="page-events">
+
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Events &amp; News</h2>
+                    <p>Published articles are displayed directly on the resident mobile homepage.</p>
+                </div>
+                <button type="button" class="btn-outline" id="publishBtn">
+                    <i class="fa-solid fa-plus"></i> Publish New Article
+                </button>
+            </div>
+
+            <div class="event-grid" id="eventGrid"></div>
+
+        </section>
+
+        <!-- ================= USER DIRECTORY ================= -->
+        <section class="page" id="page-users">
+
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Registered Citizen Accounts</h2>
+                    <p>Role-based access management and account standing verification.</p>
+                </div>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="userSearch" placeholder="Search User">
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header user-grid">
+                    <div>Full Name</div>
+                    <div>Barangay</div>
+                    <div class="center">Status</div>
+                    <div class="center">Role</div>
+                    <div class="center">Contact</div>
+                </div>
+                <div class="table-body" id="userRows"></div>
+            </div>
+
+        </section>
+
+        <!-- ================= ANALYTICS ================= -->
+        <section class="page" id="page-analytics">
+
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Civic Reports &amp; Resolution Analytics</h2>
+                    <p>Comprehensive performance audit metrics across municipal response teams.</p>
+                </div>
+            </div>
+
+            <div class="panel analytics">
+                <h3>Municipal Department Workload Distribution</h3>
+                <div class="dept-grid" id="deptGrid"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= MODAL ================= -->
+    <div class="modal-backdrop hidden" id="modal">
+        <div class="modal" role="dialog" aria-modal="true">
+            <button type="button" class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

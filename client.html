@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>My Home | Las Piñas City</title>
+  <link rel="stylesheet" href="client.css">
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#home" aria-label="My Home Las Piñas City">
+        <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M6 22 24 6l18 16v18a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3Z" fill="none" stroke="#0f5c3a" stroke-width="3.2" stroke-linejoin="round"/>
+          <rect x="15" y="21" width="7" height="7" rx="1" fill="#f2b01e"/>
+          <rect x="24" y="21" width="7" height="7" rx="1" fill="#0f5c3a" opacity=".85"/>
+          <rect x="15" y="30" width="7" height="7" rx="1" fill="#0f5c3a" opacity=".85"/>
+          <circle cx="32" cy="34" r="5" fill="#fff" stroke="#0f5c3a" stroke-width="2.4"/>
+          <circle cx="32" cy="34" r="1.8" fill="#f2b01e"/>
+        </svg>
+        <span class="brand__text">
+          <strong>My Home</strong>
+          <small>Las Piñas City</small>
+        </span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#home" data-route="home">
+          <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="#report" data-route="report">
+          <svg viewBox="0 0 24 24"><path d="M4 20h4l11-11-4-4L4 16v4ZM13.5 6.5l4 4"/></svg>
+          <span>Report Issue</span>
+        </a>
+        <a href="#emergency" data-route="emergency" class="nav__danger">
+          <svg viewBox="0 0 24 24"><path d="M12 4 2.8 20h18.4L12 4Zm0 6v5m0 2.5v.1"/></svg>
+          <span>Emergency</span>
+        </a>
+        <a href="#announcements" data-route="announcements">
+          <svg viewBox="0 0 24 24"><path d="M4 10v4h3l6 4V6L7 10H4ZM16.5 9a4 4 0 0 1 0 6"/></svg>
+          <span>Announcements</span>
+        </a>
+        <a href="#status" data-route="status">
+          <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4M12 8v4.5l3 1.5"/></svg>
+          <span>Status</span>
+        </a>
+        <a href="#account" data-route="account">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c.8-3.8 3.7-5.6 7.5-5.6s6.7 1.8 7.5 5.6"/></svg>
+          <span>Account</span>
+        </a>
+      </nav>
+
+      <div class="topbar__right">
+        <div class="notif">
+          <button class="notif__btn" id="notifBtn" title="Notifications" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15L6 17ZM10 21h4"/></svg>
+            <span class="notif__count" id="notifCount" hidden>0</span>
+          </button>
+          <div class="notif__panel" id="notifPanel" hidden>
+            <h4>Notifications</h4>
+            <ul id="notifList"></ul>
+          </div>
+        </div>
+        <button class="avatar" id="avatarBtn" title="Account" aria-label="Account">
+          <span id="avatarInitial"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Shared banner: green on every page, red + gold on Emergency (text set in client.js) -->
+  <div class="hero" id="hero">
+    <div class="hero__inner">
+      <h1 id="heroTitle"></h1>
+      <p id="heroSub"></p>
+      <div class="welcome" id="heroWelcome">
+        <svg viewBox="0 0 24 24" class="welcome__icon"><circle cx="12" cy="12" r="10" fill="#fff4d6"/><path d="M8 12.5l2.7 2.7L16 9.5" fill="none" stroke="#d99a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <h3 id="welcomeTitle">Welcome to your community dashboard!</h3>
+          <p>Your voice helps make our city better.</p>
+        </div>
+      </div>
+    </div>
+    <svg class="hero__arc" viewBox="0 0 900 360" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 360C160 150 520 20 900 40" fill="none" stroke="#f2b01e" stroke-width="14" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <main id="app">
+
+    <!-- HOME -->
+    <section class="view" id="view-home" data-view="home">
+      <div class="wrap">
+        <h2 class="section-title">Quick Actions</h2>
+
+        <div class="grid grid--top">
+          <a class="card card--report" href="#report">
+            <div class="card__icon">
+              <svg viewBox="0 0 48 48"><rect x="8" y="6" width="26" height="30" rx="3" fill="none" stroke="#0f5c3a" stroke-width="3"/><path d="M14 14h14M14 20h14M14 26h9" stroke="#0f5c3a" stroke-width="3" stroke-linecap="round"/><path d="M36 30v14M29 37h14" stroke="#0f5c3a" stroke-width="3.4" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <h3>Report an Issue</h3>
+              <p>Report community problems such as damaged roads, drainage, and streetlights.</p>
+            </div>
+          </a>
+
+          <a class="card card--emergency" href="#emergency">
+            <div class="card__icon">
+              <svg viewBox="0 0 48 48"><path d="M13 38v-11a11 11 0 0 1 22 0v11Z" fill="#d93a3a"/><path d="M9 38h30v5H9z" fill="#8f2020"/><path d="M19 22a6 6 0 0 1 5-5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".8"/><path d="M24 6v4M8 14l3 2.5M40 14l-3 2.5" stroke="#d93a3a" stroke-width="2.6" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <h3>Emergency</h3>
+              <p>Send an urgent alert for an emergency situation.</p>
+            </div>
+          </a>
+
+          <div class="card card--stats">
+            <h3>My Reports Overview</h3>
+            <div class="stats">
+              <div><b class="c-gold" id="statPending">0</b><span>Pending</span></div>
+              <div><b class="c-blue" id="statProgress">0</b><span>In Progress</span></div>
+              <div><b class="c-green" id="statResolved">0</b><span>Resolved</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid--bottom">
+          <article class="card card--info">
+            <h3 class="card__title">
+              <svg viewBox="0 0 24 24"><path d="M4 10v4h3l6 4V6L7 10H4ZM16.5 9a4 4 0 0 1 0 6"/></svg>
+              City Announcements
+            </h3>
+            <div id="announcements" class="announce"></div>
+            <a class="announce__more" href="#announcements">View all announcements →</a>
+          </article>
+
+          <article class="card card--info">
+            <h3 class="card__title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+              Recent Activity
+            </h3>
+            <ul class="activity" id="activity"></ul>
+          </article>
+
+          <article class="card emergency-hotlines-card"
+     onclick="window.location.href='hotlines.html'"
+     style="cursor:pointer;">
+            <h3 class="card__title">
+              <svg viewBox="0 0 24 24" class="t-red"><path d="M5 4h4l1.5 4-2 1.2a11 11 0 0 0 5.3 5.3l1.2-2 4 1.5v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>
+              Emergency Hotlines
+            </h3>
+            <ul class="hotlines" id="hotlines"></ul>
+            <p class="note" id="hotlineNote"></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section class="view" id="view-report" data-view="report" hidden>
+      <div class="wrap wrap--narrow">
+        <form class="panel form" id="reportForm" novalidate>
+          <label>Category
+            <select name="category" required>
+              <option value="">Select a category</option>
+              <option>Damaged Roads</option>
+              <option>Flooding and Drainage</option>
+              <option>Broken Streetlights</option>
+              <option>Garbage Collection</option>
+              <option>Noise Complaints</option>
+              <option>Other Concerns</option>
+            </select>
+          </label>
+          <label for="barangay">Barangay:</label>
+<select name="barangay" id="barangay" required>
+    <option value="">Select your barangay</option>
+    <option value="Almanza Uno">Almanza Uno</option>
+    <option value="Almanza Dos">Almanza Dos</option>
+    <option value="BF International/CAA">BF International/CAA</option>
+    <option value="Danie Fajardo">Danie Fajardo</option>
+    <option value="Elias Aldana">Elias Aldana</option>
+    <option value="Ilaya">Ilaya</option>
+    <option value="Manuyo Uno">Manuyo Uno</option>
+    <option value="Manuyo Dos">Manuyo Dos</option>
+    <option value="Pamplona Uno">Pamplona Uno</option>
+    <option value="Pamplona Dos">Pamplona Dos</option>
+    <option value="Pilar">Pilar</option>
+    <option value="Pulang Lupa Uno">Pulang Lupa Uno</option>
+    <option value="Pulang Lupa Dos">Pulang Lupa Dos</option>
+    <option value="Talon Uno">Talon Uno</option>
+    <option value="Talon Dos">Talon Dos</option>
+    <option value="Talon Tres">Talon Tres</option>
+    <option value="Talon Kuatro">Talon Kuatro</option>
+    <option value="Talon Singko">Talon Singko</option>
+    <option value="Zapote">Zapote</option>
+</select>
+
+<label for="street">Street:</label>
+<input
+    type="text"
+    name="street"
+    id="street"
+    placeholder="e.g. Alabang-Zapote Road"
+    required
+>
+
+         <div class="map-field">
+    <label>Pinpoint Exact Incident Location</label>
+    <p class="map-hint">Click the map or drag the marker to adjust.</p>
+
+    <div id="reportMap" class="incident-map"></div>
+
+    <input type="hidden" name="latitude" id="reportLatitude">
+    <input type="hidden" name="longitude" id="reportLongitude">
+
+    <p id="reportCoordinates" class="map-coordinates">
+        No location selected yet.
+    </p>
+</div>
+          <label>Describe the problem
+            <textarea name="description" rows="5" placeholder="What's happening? Include landmarks or how long it's been an issue." required></textarea>
+          </label>
+          <label>Photo <span class="opt">(optional)</span>
+            <input type="file" name="photo" accept="image/*">
+          </label>
+          <p class="form__error" id="reportError" role="alert"></p>
+          <div class="form__actions">
+            <button type="submit" class="btn btn--primary">Submit report</button>
+            <button type="reset" class="btn btn--ghost">Clear</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- EMERGENCY -->
+    <section class="view" id="view-emergency" data-view="emergency" hidden>
+      <div class="wrap wrap--narrow">
+        <form class="panel form form--danger" id="emergencyForm" novalidate>
+          <label>Type of emergency
+            <select name="category" required>
+              <option value="">Select type</option>
+              <option>Fire</option>
+              <option>Flood</option>
+              <option>Medical emergency</option>
+              <option>Crime / security</option>
+              <option>Road accident</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label for="barangay">Barangay:</label>
+<select name="barangay" id="barangay" required>
+    <option value="">Select your barangay</option>
+    <option value="Almanza Uno">Almanza Uno</option>
+    <option value="Almanza Dos">Almanza Dos</option>
+    <option value="BF International/CAA">BF International/CAA</option>
+    <option value="Danie Fajardo">Danie Fajardo</option>
+    <option value="Elias Aldana">Elias Aldana</option>
+    <option value="Ilaya">Ilaya</option>
+    <option value="Manuyo Uno">Manuyo Uno</option>
+    <option value="Manuyo Dos">Manuyo Dos</option>
+    <option value="Pamplona Uno">Pamplona Uno</option>
+    <option value="Pamplona Dos">Pamplona Dos</option>
+    <option value="Pilar">Pilar</option>
+    <option value="Pulang Lupa Uno">Pulang Lupa Uno</option>
+    <option value="Pulang Lupa Dos">Pulang Lupa Dos</option>
+    <option value="Talon Uno">Talon Uno</option>
+    <option value="Talon Dos">Talon Dos</option>
+    <option value="Talon Tres">Talon Tres</option>
+    <option value="Talon Kuatro">Talon Kuatro</option>
+    <option value="Talon Singko">Talon Singko</option>
+    <option value="Zapote">Zapote</option>
+</select>
+
+<label for="street">Street:</label>
+<input
+    type="text"
+    name="street"
+    id="street"
+    placeholder="e.g. Alabang-Zapote Road"
+    required
+>
+           <div class="map-field">
+    <label>Pinpoint Exact Emergency Location</label>
+    <p class="map-hint">Click the map or drag the marker to adjust.</p>
+
+    <div id="emergencyMap" class="incident-map"></div>
+
+    <input type="hidden" name="latitude" id="emergencyLatitude">
+    <input type="hidden" name="longitude" id="emergencyLongitude">
+
+    <p id="emergencyCoordinates" class="map-coordinates">
+        No location selected yet.
+    </p>
+</div>
+          <label>Details
+            <textarea name="description" rows="4" placeholder="What's happening and how many people are affected?" required></textarea>
+          </label>
+          <label>Contact number
+            <input type="tel" name="contact" placeholder="09XX XXX XXXX" required>
+          </label>
+          <label>Photo <span class="opt">(optional)</span>
+            <input type="file" name="photo" accept="image/*">
+          </label>
+          <p class="form__error" id="emergencyError" role="alert"></p>
+          <div class="form__actions">
+            <button type="submit" class="btn btn--danger">Send alert</button>
+            <a class="btn btn--ghost" href="tel:911">Call 911</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- STATUS -->
+    <section class="view" id="view-status" data-view="status" hidden>
+      <div class="wrap">
+        <div class="filters" id="filters">
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="Pending">Pending</button>
+          <button class="chip" data-filter="In Progress">In Progress</button>
+          <button class="chip" data-filter="Resolved">Resolved</button>
+        </div>
+
+        <div id="statusList" class="status-list"></div>
+      </div>
+    </section>
+
+    <!-- ANNOUNCEMENTS -->
+    <section class="view" id="view-announcements" data-view="announcements" hidden>
+      <div class="wrap wrap--narrow">
+        <div id="announcementList" class="ann-list"></div>
+      </div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section class="view" id="view-account" data-view="account" hidden>
+      <div class="wrap wrap--narrow">
+        <form class="panel form" id="accountForm">
+          <label>Full name
+            <input type="text" name="name" required>
+          </label>
+          <label>Username
+            <input type="text" name="username" disabled>
+          </label>
+          <label>Contact number
+            <input type="tel" name="contact" placeholder="09XX XXX XXXX">
+          </label>
+          <label>Barangay
+            <input type="text" name="barangay" placeholder="Your barangay">
+          </label>
+          <p class="form__ok" id="accountOk" role="status"></p>
+          <div class="form__actions">
+            <button type="submit" class="btn btn--primary">Save changes</button>
+            <button type="button" class="btn btn--ghost" id="logoutBtn">Log out</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">My Home • Las Piñas City | Your City. Your Community. Your Home.</footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="client.js"></script>
+</body>
+</html>
